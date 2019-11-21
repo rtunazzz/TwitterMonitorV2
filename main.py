@@ -14,7 +14,7 @@ print(r'''
 |____/  \____/ |_| \_|/_____|/_/    \_\|_|(_)|_| \___/ 
 ''')
 print(" • made by: rtuna#4321 | @rTunaboss")
-print(" • for personal use only")
+print(" • personal use only")
 
 
 # # # # # # # # # # # # # # # # # # # #     IMPORTING LIBRARIES        # # # # # # # # # # # # # # # # # # # #
@@ -31,7 +31,7 @@ import random
 # import threading
 
 # # # # # # # # # # # # # # # # # # # #     DEFINING STATIC VARIABLES        # # # # # # # # # # # # # # # # # # # #
-#TODO Paste here your discord webhooks
+#TODO Paste here your d iscord webhooks
 TWITTER_FILTERED = ""
 TWITTER_UNFILTERED = ""
 
@@ -104,12 +104,12 @@ keywords = [
 #####   WEBHOOK FUNCTIONS    #####
 def notify_twitter(webhook_url, tweet_content, user,tweet_url, profile_pic, screen_name, url=None):
     '''Sends Embed to the TwitterMonitor'''
-    hook = Webhook(url=webhook_url)
-    color= random.choice(HEX_LIST)
+    hook = Webhook(url=webhook_url, username=user, avatar_url=profile_pic)
+    color=random.choice(HEX_LIST)
 
 
     embed = Embed(
-        title = f"New tweet from {user}",
+        # title = f"New tweet from {user}",
         url = tweet_url,
         color=color,
         timestamp = 'now',
@@ -119,13 +119,12 @@ def notify_twitter(webhook_url, tweet_content, user,tweet_url, profile_pic, scre
     embed.set_author(name=screen_name,icon_url=profile_pic,url=f'https://twitter.com/{screen_name}')
     embed.set_footer(text=f'BONZAY Twitter • {datetime.datetime.now().strftime("%Y-%m-%d %H:%M")}',icon_url='https://cdn.discordapp.com/emojis/636516489322561536.png?v=1')
 
+    twitter_url_builder=f'https://twitter.com/{screen_name}'
     if url:
          embed.add_field('LINK FOUND', value=url)
-    #embed.set_author(name='New post by {instagram_user}')
-    # if tweet_content:
-    #     embed.add_field("Tweet description", tweet_content)
-    # embed.image(image)
+    embed.add_field('Links', value=f'[Profile](https://twitter.com/{screen_name}) — [Likes]({twitter_url_builder}/likes) — [Replies]({twitter_url_builder}/with_replies) — [Media]({twitter_url_builder}/media) — [TweetLink]({tweet_url})')
     hook.send(embed=embed)
+
 def notify_password_url(webhook_url, password_url, screen_name, profile_pic):
 
     hook = Webhook(url=webhook_url)
