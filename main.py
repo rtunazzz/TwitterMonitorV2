@@ -32,8 +32,8 @@ import random
 
 # # # # # # # # # # # # # # # # # # # #     DEFINING STATIC VARIABLES        # # # # # # # # # # # # # # # # # # # #
 #TODO Paste here your d iscord webhooks
-TWITTER_FILTERED = ""
-TWITTER_UNFILTERED = ""
+TWITTER_FILTERED = "https://discordapp.com/api/webhooks/594168268546113578/VwE2joJ5-vBlZl7Akh4Mt7Zk4b5eZ5WyUDpMa9alAhY1HsBnCh5Du6LpFFiQ2QttbNnY"
+TWITTER_UNFILTERED = "https://discordapp.com/api/webhooks/594168268546113578/VwE2joJ5-vBlZl7Akh4Mt7Zk4b5eZ5WyUDpMa9alAhY1HsBnCh5Du6LpFFiQ2QttbNnY"
 
 #TODO List here all IDs of accounts you want to monitor
 USER_IDS = [
@@ -107,7 +107,6 @@ def notify_twitter(webhook_url, tweet_content, user,tweet_url, profile_pic, scre
     hook = Webhook(url=webhook_url, username=user, avatar_url=profile_pic)
     color=random.choice(HEX_LIST)
 
-
     embed = Embed(
         # title = f"New tweet from {user}",
         url = tweet_url,
@@ -117,17 +116,18 @@ def notify_twitter(webhook_url, tweet_content, user,tweet_url, profile_pic, scre
     )
 
     embed.set_author(name=screen_name,icon_url=profile_pic,url=f'https://twitter.com/{screen_name}')
-    embed.set_footer(text=f'BONZAY Twitter • {datetime.datetime.now().strftime("%Y-%m-%d %H:%M")}',icon_url='https://cdn.discordapp.com/emojis/636516489322561536.png?v=1')
+    # embed.set_footer(text=f'BONZAY Twitter • {datetime.datetime.now().strftime("%Y-%m-%d %H:%M")}',icon_url='https://cdn.discordapp.com/emojis/636516489322561536.png?v=1')
+    embed.set_footer(text=f'BONZAY Twitter',icon_url='https://cdn.discordapp.com/emojis/636516489322561536.png?v=1')
 
     twitter_url_builder=f'https://twitter.com/{screen_name}'
     if url:
-         embed.add_field('LINK FOUND', value=url)
-    embed.add_field('Links', value=f'[Profile](https://twitter.com/{screen_name}) — [Likes]({twitter_url_builder}/likes) — [Replies]({twitter_url_builder}/with_replies) — [Media]({twitter_url_builder}/media) — [TweetLink]({tweet_url})')
+         embed.add_field('LINK FOUND', value=url, inline=False)
+    embed.add_field('Links', value=f'[Profile](https://twitter.com/{screen_name}) — [Likes]({twitter_url_builder}/likes) — [Replies]({twitter_url_builder}/with_replies) — [Media]({twitter_url_builder}/media) — [TweetLink]({tweet_url})', inline=False)
     hook.send(embed=embed)
 
 def notify_password_url(webhook_url, password_url, screen_name, profile_pic):
-
-    hook = Webhook(url=webhook_url)
+    
+    hook = Webhook(url=webhook_url, username=screen_name, avatar_url=profile_pic)
     color= random.choice(HEX_LIST)
 
 
@@ -180,7 +180,15 @@ def get_profile_pic(j):
     return j["user"]["profile_image_url"]
 def get_tweet_content(j):
     '''Takes in json file and returns tweet contents'''
-    return j['text']
+    tweet_text = j['text']
+    tweet_url_list = j['entities']['urls']
+    for val in tweet_url_list:
+        short_url = val['url']
+        expanded_url = val['expanded_url']
+        tweet_text = tweet_text.replace(short_url, expanded_url)
+
+    return tweet_text
+
 def get_screen_name(j):
     '''Takes in json file and returns users screen name'''
     return j['user']['screen_name']
@@ -325,8 +333,8 @@ class StreamListener(tweepy.StreamListener):
                             
                             passw = password_with_colon(line_without_spaces)
                             if passw:
-                                user_url = get_user_url(j)
-                                final_url = compile_final_url(user_url, passw)
+                                # user_url = get_user_url(j)
+                                final_url = compile_final_url(url, passw)
                                 #TODO Edit variables below so they only load once (probs will be using scheme:
                                 #                                                  new tweet -> noitify -> search for password -> notify password)
                                 profile_pic = get_profile_pic(j)
@@ -336,8 +344,8 @@ class StreamListener(tweepy.StreamListener):
 
                             passw = password_with_is(line)
                             if passw:
-                                user_url = get_user_url(j)
-                                final_url = compile_final_url(user_url, passw)
+                                # user_url = get_user_url(j)
+                                final_url = compile_final_url(url, passw)
                                 profile_pic = get_profile_pic(j)
                                 screen_name = get_screen_name(j)
                                 notify_password_url(TWITTER_FILTERED, final_url, screen_name, profile_pic)
@@ -346,8 +354,8 @@ class StreamListener(tweepy.StreamListener):
                             passw = password_with_space(line)
                             # print(passw)
                             if passw:
-                                user_url = get_user_url(j)
-                                final_url = compile_final_url(user_url, passw)
+                                # user_url = get_user_url(j)
+                                final_url = compile_final_url(url, passw)
                                 profile_pic = get_profile_pic(j)
                                 screen_name = get_screen_name(j)
                                 notify_password_url(TWITTER_FILTERED, final_url, screen_name, profile_pic)
