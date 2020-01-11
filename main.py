@@ -32,8 +32,8 @@ import random
 
 # # # # # # # # # # # # # # # # # # # #     DEFINING STATIC VARIABLES        # # # # # # # # # # # # # # # # # # # #
 #TODO Paste here your d iscord webhooks
-TWITTER_FILTERED = ""
-TWITTER_UNFILTERED = ""
+TWITTER_FILTERED = "https://discordapp.com/api/webhooks/594168268546113578/VwE2joJ5-vBlZl7Akh4Mt7Zk4b5eZ5WyUDpMa9alAhY1HsBnCh5Du6LpFFiQ2QttbNnY"
+TWITTER_UNFILTERED = "https://discordapp.com/api/webhooks/665537020227223553/_KQHyOq8ej0-MjkkfX3R9SKB2em9Rx70XKHi4qattYrIkmKrwMQhckY9ozPC2LW5BYVG"
 
 #TODO List here all IDs of accounts you want to monitor
 USER_IDS = [
@@ -100,6 +100,7 @@ keywords = [
     'password',
     'live',
 ]
+
 # # # # # # # # # # # # # # # # # # # #     DEFINING FUNCTIONS        # # # # # # # # # # # # # # # # # # # #
 #####   WEBHOOK FUNCTIONS    #####
 def notify_twitter(webhook_url, tweet_content, user,tweet_url, profile_pic, screen_name, url=None):
@@ -289,6 +290,7 @@ class StreamListener(tweepy.StreamListener):
                             screen_name=screen_name
                             )
                     
+                    url = None
                     try:
                         url = get_url(j)
                     except:
@@ -299,10 +301,11 @@ class StreamListener(tweepy.StreamListener):
                     # profile_pic_url = get_profile_pic(j)
                     # screen_name = get_screen_name(j)
 
-                    if 'discord.gg' in url:
-                        notify_discord_invite(TWITTER_FILTERED, url, screen_name, profile_pic_url)
-                    else:
-                        if url:
+                    if url:
+                        if 'discord.gg' in url:
+                            notify_discord_invite(TWITTER_FILTERED, url, screen_name, profile_pic_url)
+                        
+                        else:
                             notify_twitter(
                             webhook_url=TWITTER_FILTERED,
                             tweet_content=tweet_content,
@@ -313,53 +316,52 @@ class StreamListener(tweepy.StreamListener):
                             url=url
                             )
 
-                        else:
-                            #otherwise notify with no url
-                            notify_twitter(
-                            webhook_url=TWITTER_FILTERED,
-                            tweet_content=tweet_content,
-                            user=user,
-                            tweet_url=tweet_url,
-                            profile_pic=profile_pic_url,
-                            screen_name=screen_name,
-                            )
+                    #otherwise notify with no url
+                    notify_twitter(
+                    webhook_url=TWITTER_FILTERED,
+                    tweet_content=tweet_content,
+                    user=user,
+                    tweet_url=tweet_url,
+                    profile_pic=profile_pic_url,
+                    screen_name=screen_name,
+                    )
 
-                        #search for password
-                        lines = tweet_description_into_lines(j)
+                    #search for password
+                    lines = tweet_description_into_lines(j)
 
-                        for line in lines:
-                            
-                            line_without_spaces = remove_spaces(line)
-                            
-                            passw = password_with_colon(line_without_spaces)
-                            if passw:
-                                # user_url = get_user_url(j)
-                                final_url = compile_final_url(url, passw)
-                                #TODO Edit variables below so they only load once (probs will be using scheme:
-                                #                                                  new tweet -> noitify -> search for password -> notify password)
-                                profile_pic = get_profile_pic(j)
-                                screen_name = get_screen_name(j)
-                                notify_password_url(TWITTER_FILTERED, final_url, screen_name, profile_pic)
-                                break
+                    for line in lines:
+                        
+                        line_without_spaces = remove_spaces(line)
+                        
+                        passw = password_with_colon(line_without_spaces)
+                        if passw:
+                            # user_url = get_user_url(j)
+                            final_url = compile_final_url(url, passw)
+                            #TODO Edit variables below so they only load once (probs will be using scheme:
+                            #                                                  new tweet -> noitify -> search for password -> notify password)
+                            profile_pic = get_profile_pic(j)
+                            screen_name = get_screen_name(j)
+                            notify_password_url(TWITTER_FILTERED, final_url, screen_name, profile_pic)
+                            break
 
-                            passw = password_with_is(line)
-                            if passw:
-                                # user_url = get_user_url(j)
-                                final_url = compile_final_url(url, passw)
-                                profile_pic = get_profile_pic(j)
-                                screen_name = get_screen_name(j)
-                                notify_password_url(TWITTER_FILTERED, final_url, screen_name, profile_pic)
-                                break
+                        passw = password_with_is(line)
+                        if passw:
+                            # user_url = get_user_url(j)
+                            final_url = compile_final_url(url, passw)
+                            profile_pic = get_profile_pic(j)
+                            screen_name = get_screen_name(j)
+                            notify_password_url(TWITTER_FILTERED, final_url, screen_name, profile_pic)
+                            break
 
-                            passw = password_with_space(line)
-                            # print(passw)
-                            if passw:
-                                # user_url = get_user_url(j)
-                                final_url = compile_final_url(url, passw)
-                                profile_pic = get_profile_pic(j)
-                                screen_name = get_screen_name(j)
-                                notify_password_url(TWITTER_FILTERED, final_url, screen_name, profile_pic)
-                                break
+                        passw = password_with_space(line)
+                        # print(passw)
+                        if passw:
+                            # user_url = get_user_url(j)
+                            final_url = compile_final_url(url, passw)
+                            profile_pic = get_profile_pic(j)
+                            screen_name = get_screen_name(j)
+                            notify_password_url(TWITTER_FILTERED, final_url, screen_name, profile_pic)
+                            break
             except Exception as e:
                 print(e)
 
@@ -382,6 +384,8 @@ if __name__ == "__main__":
     stream = tweepy.Stream(auth, listener)
 
     stream.filter(follow=USER_IDS, is_async=True)
+    print('-----' * 5)
+    print('Monitor initiated!')
 
 
 
