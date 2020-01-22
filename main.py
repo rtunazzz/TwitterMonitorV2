@@ -134,7 +134,6 @@ def notify_password_url(webhook_url, password_url, screen_name, profile_pic):
     embed = Embed(
         title = "Possible link found:",
         color=color,
-        timestamp = 'now',
         description = password_url,
     )
 
@@ -157,7 +156,6 @@ def notify_discord_invite(webhook_url, invite_url, screen_name, profile_pic):
     embed = Embed(
         title = "Discord invite found:",
         color=color,
-        timestamp = 'now',
         description = invite_url,
     )
 
