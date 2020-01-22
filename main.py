@@ -32,8 +32,8 @@ import random
 
 # # # # # # # # # # # # # # # # # # # #     DEFINING STATIC VARIABLES        # # # # # # # # # # # # # # # # # # # #
 #TODO Paste here your d iscord webhooks
-TWITTER_FILTERED = "https://discordapp.com/api/webhooks/594168268546113578/VwE2joJ5-vBlZl7Akh4Mt7Zk4b5eZ5WyUDpMa9alAhY1HsBnCh5Du6LpFFiQ2QttbNnY"
-TWITTER_UNFILTERED = "https://discordapp.com/api/webhooks/665537020227223553/_KQHyOq8ej0-MjkkfX3R9SKB2em9Rx70XKHi4qattYrIkmKrwMQhckY9ozPC2LW5BYVG"
+TWITTER_FILTERED = ""
+TWITTER_UNFILTERED = ""
 
 #TODO List here all IDs of accounts you want to monitor
 USER_IDS = [
