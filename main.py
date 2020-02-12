@@ -1,5 +1,5 @@
 # # # # #   WORKING ON PYTHON 3.6.5     # # # # #
-# # # # #   MADE BY:    @rTUNAboss | rtuna#4321           # # # # #
+# # # # #   MADE BY:    @rtunazzz | rtuna#4321           # # # # #
 # TODO:
 # ADD BIO CHANGE SUPPORT
 # Add threading support
