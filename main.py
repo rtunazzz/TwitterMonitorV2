@@ -13,7 +13,7 @@ print(r'''
 | |_) || |__| || |\  | / /__  / ____ \ | | _ | || (_) |
 |____/  \____/ |_| \_|/_____|/_/    \_\|_|(_)|_| \___/ 
 ''')
-print(" • made by: rtuna#4321 | @rTunaboss")
+print(" • made by: rtuna#4321 | @rtunazzz")
 print(" • personal use only")
 
 
