@@ -407,6 +407,7 @@ if __name__ == "__main__":
     stream = tweepy.Stream(auth, listener)
 
     stream.filter(follow=USER_IDS, is_async=True)
+    print("Started monitoring...")
 
 
 
