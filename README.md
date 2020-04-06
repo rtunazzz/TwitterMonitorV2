@@ -11,5 +11,5 @@ DM me on Discord rtuna#4321 if you need any help.
   -- User IDs that you want to monitor (you can use `http://gettwitterid.com/` to get users twitterID)
 
 
-If you don't know what to put in into `credentials.json` watch [this video](https://www.youtube.com/watch?v=M_gGUqhCJoU) and follow the steps to get your keys and tokens.
+If you don't know what to put in into `credentials.json` watch [this video](https://www.youtube.com/watch?v=2o_qt9cXicM) and follow the steps to get your keys and tokens.
 You do not need to create a new Twitter account if you already have one.
