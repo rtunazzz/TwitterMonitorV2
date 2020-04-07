@@ -169,7 +169,7 @@ def get_url(j):
     '''Takes in json file and returns a URL if it's in the passed tweet data'''
     tweet_url = j["entities"]["urls"][0]["expanded_url"]
     if 'twitter.com' not in tweet_url:
-        return tweet_url.lower()
+        return tweet_url
 def get_tweet_url(j):
     '''Takes in json file with tweet data and returns a tweet url'''
     return f"https://twitter.com/{j['user']['screen_name']}/status/{j['id']}"
