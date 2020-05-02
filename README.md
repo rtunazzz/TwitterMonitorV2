@@ -1,5 +1,4 @@
 # TwitterMonitorV2
-DM me on Discord rtuna#4321 if you need any help.
 
 ## Before running:
 1. Make sure you have Python installed
